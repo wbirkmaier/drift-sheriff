@@ -6,7 +6,7 @@ DriftSheriff still coupled its commands directly to the fixture loader, which wo
 
 - added a small evidence adapter interface
 - implemented a fixture-backed adapter as the current shipped path
-- added an explicit placeholder AWS adapter that fails clearly rather than pretending live loading works
+- added an explicit future AWS adapter stub that fails clearly rather than pretending live loading works
 
 ## Important decisions
 
