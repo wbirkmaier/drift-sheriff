@@ -13,6 +13,8 @@ def test_analyze_resource_returns_expected_actor_and_event_ids() -> None:
     assert report.actor_arn == "arn:aws:sts::111122223333:assumed-role/infra-admin/session-1234"
     assert report.event_ids == ["9bc0b580-35b1-4b72-94e4-5cb61191a001"]
     assert report.classification == "manual_console_change"
+    assert report.likely_owner_repository == "github.com/example/platform-live"
+    assert report.ownership_fit == "likely_iac_drift"
 
 
 def test_analyze_resource_preserves_before_and_after_state() -> None:
