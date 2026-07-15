@@ -1,0 +1,36 @@
+{
+  "resources": [
+    {
+      "arn": "arn:aws:elasticloadbalancing:us-west-2:111122223333:targetgroup/payments-blue/1234567890abcdef",
+      "resource_type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+      "tags": {
+        "Owner": "platform-observability",
+        "Environment": "prod"
+      },
+      "before": {
+        "attributes": {
+          "healthCheckPath": "/healthz",
+          "healthyThreshold": "3"
+        }
+      },
+      "after": {
+        "attributes": {
+          "healthCheckPath": "/readyz",
+          "healthyThreshold": "5"
+        }
+      }
+    }
+  ],
+  "trail_events": [
+    {
+      "event_id": "9bc0b580-35b1-4b72-94e4-5cb61191a001",
+      "resource_arn": "arn:aws:elasticloadbalancing:us-west-2:111122223333:targetgroup/payments-blue/1234567890abcdef",
+      "event_name": "ModifyTargetGroup",
+      "event_time": "2026-07-14T18:42:11Z",
+      "actor_arn": "arn:aws:sts::111122223333:assumed-role/infra-admin/session-1234",
+      "session_name": "session-1234",
+      "source_ip": "198.51.100.44",
+      "user_agent": "console.amazonaws.com"
+    }
+  ]
+}

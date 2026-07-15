@@ -27,4 +27,8 @@ DriftSheriff explains who changed an AWS resource, through what channel, and whe
 
 ## Status
 
-Repository scaffolding and CLI baseline are in place. Attribution and ownership slices land next.
+```bash
+uv run drift-sheriff resource arn:aws:elasticloadbalancing:us-west-2:111122223333:targetgroup/payments-blue/1234567890abcdef --fixtures tests/fixtures/resource-change
+```
+
+The current slice correlates one resource from offline fixtures and returns exact evidence IDs, actor/session details, and before/after state. Ownership and issue rendering land in later slices.
