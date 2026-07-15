@@ -1,0 +1,71 @@
+{
+  "resources": [
+    {
+      "arn": "arn:aws:elasticloadbalancing:us-west-2:111122223333:targetgroup/payments-blue/1234567890abcdef",
+      "resource_type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+      "tags": {
+        "Owner": "platform-observability",
+        "Environment": "prod"
+      },
+      "before": {
+        "attributes": {
+          "healthCheckPath": "/healthz"
+        }
+      },
+      "after": {
+        "attributes": {
+          "healthCheckPath": "/readyz"
+        }
+      }
+    },
+    {
+      "arn": "arn:aws:s3:::audit-export-bucket",
+      "resource_type": "AWS::S3::Bucket",
+      "tags": {
+        "Owner": "platform-observability",
+        "Environment": "prod"
+      },
+      "before": {
+        "attributes": {
+          "versioning": "Disabled"
+        }
+      },
+      "after": {
+        "attributes": {
+          "versioning": "Enabled"
+        }
+      }
+    }
+  ],
+  "trail_events": [
+    {
+      "event_id": "9bc0b580-35b1-4b72-94e4-5cb61191a001",
+      "resource_arn": "arn:aws:elasticloadbalancing:us-west-2:111122223333:targetgroup/payments-blue/1234567890abcdef",
+      "event_name": "ModifyTargetGroup",
+      "event_time": "2026-07-14T18:42:11Z",
+      "actor_arn": "arn:aws:sts::111122223333:assumed-role/infra-admin/session-1234",
+      "session_name": "session-1234",
+      "source_ip": "198.51.100.44",
+      "user_agent": "console.amazonaws.com"
+    },
+    {
+      "event_id": "d1be2040-bb88-4876-a09a-767b72fcd002",
+      "resource_arn": "arn:aws:s3:::audit-export-bucket",
+      "event_name": "PutBucketVersioning",
+      "event_time": "2026-07-14T19:15:00Z",
+      "actor_arn": "arn:aws:sts::111122223333:assumed-role/platform-automation/deploy-4567",
+      "session_name": "deploy-4567",
+      "source_ip": "192.0.2.17",
+      "user_agent": "aws-sdk-go/1.49"
+    }
+  ],
+  "ownership": [
+    {
+      "owner_tag": "platform-observability",
+      "repository": "github.com/example/platform-live",
+      "approved_role_arns": [
+        "arn:aws:sts::111122223333:assumed-role/platform-automation/deploy-4567"
+      ]
+    }
+  ]
+}
