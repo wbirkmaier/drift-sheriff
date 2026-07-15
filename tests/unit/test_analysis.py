@@ -1,6 +1,8 @@
 from pathlib import Path
 
+from drift_sheriff.adapters import AwsEvidenceAdapter, FixtureEvidenceAdapter
 from drift_sheriff.analysis import analyze_account, analyze_resource
+from drift_sheriff.exceptions import DriftSheriffError
 from drift_sheriff.fixtures import load_fixture
 
 
@@ -38,3 +40,18 @@ def test_analyze_account_rolls_up_classifications() -> None:
         "expected_automation_change": 1,
         "likely_iac_drift": 1,
     }
+
+
+def test_fixture_evidence_adapter_loads_fixture_bundle() -> None:
+    bundle = FixtureEvidenceAdapter().load(Path("tests/fixtures/resource-change"))
+
+    assert len(bundle.resources) == 1
+
+
+def test_aws_evidence_adapter_reports_not_implemented() -> None:
+    try:
+        AwsEvidenceAdapter().load(Path("tests/fixtures/resource-change"))
+    except DriftSheriffError as error:
+        assert "live AWS evidence loading is not implemented" in str(error)
+    else:
+        raise AssertionError("expected DriftSheriffError")
