@@ -32,5 +32,14 @@
       "source_ip": "198.51.100.44",
       "user_agent": "console.amazonaws.com"
     }
+  ],
+  "ownership": [
+    {
+      "owner_tag": "platform-observability",
+      "repository": "github.com/example/platform-live",
+      "approved_role_arns": [
+        "arn:aws:sts::111122223333:assumed-role/platform-automation/deploy-4567"
+      ]
+    }
   ]
 }

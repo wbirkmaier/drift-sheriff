@@ -5,6 +5,8 @@
   "session_name": "session-1234",
   "source_channel": "console",
   "classification": "manual_console_change",
+  "likely_owner_repository": "github.com/example/platform-live",
+  "ownership_fit": "likely_iac_drift",
   "event_ids": [
     "9bc0b580-35b1-4b72-94e4-5cb61191a001"
   ],
