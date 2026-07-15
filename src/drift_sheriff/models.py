@@ -37,6 +37,7 @@ class ResourceAttributionReport(BaseModel):
     actor_arn: str
     session_name: str
     source_channel: str
+    classification: str
     event_ids: list[str]
     before: dict[str, str]
     after: dict[str, str]
