@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from drift_sheriff.exceptions import DriftSheriffError
-from drift_sheriff.models import FixtureBundle, ResourceAttributionReport
+from drift_sheriff.models import AccountReport, FixtureBundle, ResourceAttributionReport
 
 
 def _source_channel(user_agent: str) -> str:
@@ -71,4 +71,26 @@ def analyze_resource(bundle: FixtureBundle, arn: str) -> ResourceAttributionRepo
         before=resource.before.attributes,
         after=resource.after.attributes,
         tags=resource.tags,
+    )
+
+
+def analyze_account(bundle: FixtureBundle) -> AccountReport:
+    resources = [
+        analyze_resource(bundle, resource.arn)
+        for resource in sorted(bundle.resources, key=lambda item: item.arn)
+    ]
+    classification_counts: dict[str, int] = {}
+    ownership_fit_counts: dict[str, int] = {}
+    for report in resources:
+        classification_counts[report.classification] = (
+            classification_counts.get(report.classification, 0) + 1
+        )
+        ownership_fit_counts[report.ownership_fit] = (
+            ownership_fit_counts.get(report.ownership_fit, 0) + 1
+        )
+
+    return AccountReport(
+        resources=resources,
+        classification_counts=classification_counts,
+        ownership_fit_counts=ownership_fit_counts,
     )

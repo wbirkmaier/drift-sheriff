@@ -51,3 +51,9 @@ class ResourceAttributionReport(BaseModel):
     before: dict[str, str]
     after: dict[str, str]
     tags: dict[str, str]
+
+
+class AccountReport(BaseModel):
+    resources: list[ResourceAttributionReport]
+    classification_counts: dict[str, int]
+    ownership_fit_counts: dict[str, int]
