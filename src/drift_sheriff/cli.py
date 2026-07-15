@@ -8,6 +8,7 @@ import typer
 from drift_sheriff.analysis import analyze_account, analyze_resource
 from drift_sheriff.exceptions import DriftSheriffError
 from drift_sheriff.fixtures import load_fixture
+from drift_sheriff.rendering import render_issue
 
 app = typer.Typer(
     help="Explain AWS resource changes without mutating infrastructure.",
@@ -69,6 +70,33 @@ def account(
         raise typer.Exit(code=error.exit_code) from error
 
     typer.echo(report.model_dump_json(indent=2))
+
+
+@app.command("issue")
+def issue(
+    resource_arn: Annotated[str, typer.Argument(help="Resource ARN to render an issue for.")],
+    fixtures: Annotated[
+        Path,
+        typer.Option(
+            "--fixtures",
+            exists=True,
+            file_okay=False,
+            dir_okay=True,
+            readable=True,
+            help="Directory containing snapshot.json fixture data.",
+        ),
+    ],
+    output_format: Annotated[
+        str, typer.Option("--format", help="Only 'github' is currently supported.")
+    ] = "github",
+) -> None:
+    try:
+        report = analyze_resource(load_fixture(fixtures), resource_arn)
+        rendered = render_issue(report, output_format)
+    except DriftSheriffError as error:
+        raise typer.Exit(code=error.exit_code) from error
+
+    typer.echo(rendered)
 
 
 def main(argv: Annotated[list[str] | None, typer.Argument(hidden=True)] = None) -> None:

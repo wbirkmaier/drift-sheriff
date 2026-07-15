@@ -30,6 +30,7 @@ DriftSheriff explains who changed an AWS resource, through what channel, and whe
 ```bash
 uv run drift-sheriff resource arn:aws:elasticloadbalancing:us-west-2:111122223333:targetgroup/payments-blue/1234567890abcdef --fixtures tests/fixtures/resource-change
 uv run drift-sheriff account --fixtures tests/fixtures/account-snapshot
+uv run drift-sheriff issue arn:aws:elasticloadbalancing:us-west-2:111122223333:targetgroup/payments-blue/1234567890abcdef --fixtures tests/fixtures/resource-change --format github
 ```
 
-The current slice correlates one resource or an account fixture from offline evidence and returns exact event IDs, actor/session details, ownership hints, and drift-fit classification. Issue rendering lands in later slices.
+The current slice correlates one resource or an account fixture from offline evidence and returns exact event IDs, actor/session details, ownership hints, drift-fit classification, and a GitHub issue body for one resource finding.
