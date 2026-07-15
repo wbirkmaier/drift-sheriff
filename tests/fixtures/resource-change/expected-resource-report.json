@@ -1,0 +1,22 @@
+{
+  "arn": "arn:aws:elasticloadbalancing:us-west-2:111122223333:targetgroup/payments-blue/1234567890abcdef",
+  "resource_type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+  "actor_arn": "arn:aws:sts::111122223333:assumed-role/infra-admin/session-1234",
+  "session_name": "session-1234",
+  "source_channel": "console",
+  "event_ids": [
+    "9bc0b580-35b1-4b72-94e4-5cb61191a001"
+  ],
+  "before": {
+    "healthCheckPath": "/healthz",
+    "healthyThreshold": "3"
+  },
+  "after": {
+    "healthCheckPath": "/readyz",
+    "healthyThreshold": "5"
+  },
+  "tags": {
+    "Owner": "platform-observability",
+    "Environment": "prod"
+  }
+}
