@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from drift_sheriff.analysis import analyze_resource
+from drift_sheriff.analysis import analyze_account, analyze_resource
 from drift_sheriff.fixtures import load_fixture
 
 
@@ -25,3 +25,16 @@ def test_analyze_resource_preserves_before_and_after_state() -> None:
 
     assert report.before["healthCheckPath"] == "/healthz"
     assert report.after["healthCheckPath"] == "/readyz"
+
+
+def test_analyze_account_rolls_up_classifications() -> None:
+    report = analyze_account(load_fixture(Path("tests/fixtures/account-snapshot")))
+
+    assert report.classification_counts == {
+        "expected_automation_change": 1,
+        "manual_console_change": 1,
+    }
+    assert report.ownership_fit_counts == {
+        "expected_automation_change": 1,
+        "likely_iac_drift": 1,
+    }

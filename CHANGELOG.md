@@ -6,3 +6,4 @@
 - Added fixture-backed resource evidence correlation and a first `resource` command.
 - Added change classification for console, automation, and unknown actor paths.
 - Added ownership mapping and first-pass drift-fit classification.
+- Added account-wide attribution rollups from fixture evidence.
