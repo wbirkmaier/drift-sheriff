@@ -29,6 +29,13 @@ class TrailEvent(BaseModel):
 class FixtureBundle(BaseModel):
     resources: list[ResourceRecord]
     trail_events: list[TrailEvent]
+    ownership: list[OwnershipRecord] = Field(default_factory=list)
+
+
+class OwnershipRecord(BaseModel):
+    owner_tag: str
+    repository: str
+    approved_role_arns: list[str] = Field(default_factory=list)
 
 
 class ResourceAttributionReport(BaseModel):
@@ -38,6 +45,8 @@ class ResourceAttributionReport(BaseModel):
     session_name: str
     source_channel: str
     classification: str
+    likely_owner_repository: str | None
+    ownership_fit: str
     event_ids: list[str]
     before: dict[str, str]
     after: dict[str, str]
