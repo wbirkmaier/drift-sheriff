@@ -8,3 +8,4 @@
 - Added ownership mapping and first-pass drift-fit classification.
 - Added account-wide attribution rollups from fixture evidence.
 - Added GitHub issue body rendering for attributed resource findings.
+- Added an evidence adapter boundary for fixture and future AWS-backed sources.

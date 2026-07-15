@@ -34,3 +34,5 @@ uv run drift-sheriff issue arn:aws:elasticloadbalancing:us-west-2:111122223333:t
 ```
 
 The current slice correlates one resource or an account fixture from offline evidence and returns exact event IDs, actor/session details, ownership hints, drift-fit classification, and a GitHub issue body for one resource finding.
+
+The current evidence source is a fixture adapter. A live AWS adapter is planned behind the same interface.

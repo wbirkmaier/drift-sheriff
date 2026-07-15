@@ -5,9 +5,9 @@ from typing import Annotated
 
 import typer
 
+from drift_sheriff.adapters import get_evidence_adapter
 from drift_sheriff.analysis import analyze_account, analyze_resource
 from drift_sheriff.exceptions import DriftSheriffError
-from drift_sheriff.fixtures import load_fixture
 from drift_sheriff.rendering import render_issue
 
 app = typer.Typer(
@@ -41,9 +41,13 @@ def resource(
             help="Directory containing snapshot.json fixture data.",
         ),
     ],
+    adapter: Annotated[
+        str,
+        typer.Option("--adapter", help="Evidence source: 'fixture' or 'aws'."),
+    ] = "fixture",
 ) -> None:
     try:
-        report = analyze_resource(load_fixture(fixtures), resource_arn)
+        report = analyze_resource(get_evidence_adapter(adapter).load(fixtures), resource_arn)
     except DriftSheriffError as error:
         raise typer.Exit(code=error.exit_code) from error
 
@@ -63,9 +67,13 @@ def account(
             help="Directory containing snapshot.json fixture data.",
         ),
     ],
+    adapter: Annotated[
+        str,
+        typer.Option("--adapter", help="Evidence source: 'fixture' or 'aws'."),
+    ] = "fixture",
 ) -> None:
     try:
-        report = analyze_account(load_fixture(fixtures))
+        report = analyze_account(get_evidence_adapter(adapter).load(fixtures))
     except DriftSheriffError as error:
         raise typer.Exit(code=error.exit_code) from error
 
@@ -89,9 +97,13 @@ def issue(
     output_format: Annotated[
         str, typer.Option("--format", help="Only 'github' is currently supported.")
     ] = "github",
+    adapter: Annotated[
+        str,
+        typer.Option("--adapter", help="Evidence source: 'fixture' or 'aws'."),
+    ] = "fixture",
 ) -> None:
     try:
-        report = analyze_resource(load_fixture(fixtures), resource_arn)
+        report = analyze_resource(get_evidence_adapter(adapter).load(fixtures), resource_arn)
         rendered = render_issue(report, output_format)
     except DriftSheriffError as error:
         raise typer.Exit(code=error.exit_code) from error
